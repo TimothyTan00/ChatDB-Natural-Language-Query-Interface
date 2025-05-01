@@ -46,6 +46,8 @@ pip list
 client = openai.OpenAI(api_key="")
 ```
 
+5. Open ```ChatDB_Data.zip``` and ensure the three CSV files are in the same directory.
+
 ### Required Software
 
 - Python 3.10 or higher
