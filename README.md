@@ -10,12 +10,69 @@ ChatDB is an AI-powered database interface that allows users to interact with re
 - **Multi-Table Queries**: Support for JOIN operations and complex queries.
 
 ## 🛠 Tech Stack
-- **Backend**: Python, Flask
+- **Backend**: Python
 - **Database**: MySQL
-- **NLP Processing**: OpenAI GPT-4o-mini API
+- **NLP Processing**: OpenAI GPT-4o-mini via API
+- **Interface**: Command-Line Interface.
 
 ## 🚀 Future Improvements
+- Develop a web-based interface with Flask.
 - Enhance query accuracy with prompt engineering.
+- Create an automated CSV loading script.
+- Introduce session-based memory.
 - Add support for NoSQL databases.
-- Improve UI with a web-based interface.
-- Deploy application and use Docker for containerization.
+
+# 🔧 Setup Instructions
+Before running ChatDB, complete the following steps:
+
+1. Create virtual environment:
+```bash
+python -m venv .venv
+source .venv/bin/activate  # or .venv\Scripts\activate on Windows
+```
+
+2. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+3. Ensure you have the required software:
+```bash
+pip list
+```
+
+4. Add your personal 🔑 OpenAI API key to the following line in ```chatdb_main.py```:
+```bash
+client = openai.OpenAI(api_key="")
+```
+
+### Required Software
+
+- Python 3.10 or higher
+- MySQL Server (recommended: MySQL 8.0+)
+- pip (Python package manager)
+
+## SQL Schema Loading Instructions
+1. Start MySQL:
+```bash
+mysql -u root -p --local-infile=1
+```
+
+2. Load SQL schema and data:
+```bash
+SOURCE /Users/timothytan/PycharmProjects/DSCI 551 Data Management/ChatDB_Project/main.sql;
+
+LOAD DATA LOCAL INFILE '/Users/timothytan/PycharmProjects/DSCI 551 Data Management/ChatDB_Project/employee_with_customerid.csv' INTO TABLE Employees FIELDS TERMINATED BY ',' IGNORE 1 ROWS;
+LOAD DATA LOCAL INFILE '/Users/timothytan/PycharmProjects/DSCI 551 Data Management/ChatDB_Project/orders_mapped.csv' INTO TABLE Orders FIELDS TERMINATED BY ',' ENCLOSED BY '"' IGNORE 1 ROWS (@InvoiceNo, @StockCode, @Description, @Quantity, @InvoiceDate, @UnitPrice, @CustomerID, @Country) SET InvoiceNo = @InvoiceNo, StockCode = @StockCode, Description = @Description, Quantity = @Quantity, InvoiceDate = STR_TO_DATE(@InvoiceDate, '%c/%e/%Y %k:%i'), UnitPrice = @UnitPrice, CustomerID = @CustomerID, Country = @Country;
+LOAD DATA LOCAL INFILE '/Users/timothytan/PycharmProjects/DSCI 551 Data Management/ChatDB_Project/patients_with_customerid.csv' INTO TABLE Patients FIELDS TERMINATED BY ','  ENCLOSED BY '"'  IGNORE 1 ROWS;
+```
+
+3. Exit SQL and run:
+```bash
+python chatdb_main.py
+```
+
+
+
+
+
